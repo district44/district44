@@ -99,6 +99,17 @@
                     fbInit()
                 }
             })
+
+            /**
+             * Facebook SDK Tag
+             */
+            ;(function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
         }
 
         /**
@@ -106,21 +117,15 @@
          */
         if (location.search) {
             iframe_data = location.search.replace('?', '').split('|')
-            OctoBoot_plugins.facebook_plugin(iframe_data[0], parseInt(iframe_data[1]))
+            var checkInterval = setInterval(function() {
+                if ($(window).width() !== 0) {
+                    OctoBoot_plugins.facebook_plugin(iframe_data[0], parseInt(iframe_data[1]))
+                    clearInterval(checkInterval)
+                }
+            }, 500)
         } else {
             console.error('facebook module error: facebook id missing on location')
         }
-
-        /**
-         * Facebook SDK Tag
-         */
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
     </script>
 
 </body>
